@@ -2,15 +2,22 @@ class window.Hand extends Backbone.Collection
   model: Card
 
   initialize: (array, @deck, @isDealer) ->
-      if @hasAce 1, array[0]
-        console.log(array[0].get('rank'))
-        console.log("Has Ace")
-      else
-        console.log(array[0].get('rank'))
-        console.log("!HA")
+  ###
+  if isDealer is true and the upcard is an Ace
+    check if dealer has blackjack
+    if the dealer has blackjack
+      trigger the dealer has blackjack event
+  ###
+  if @isDealer is true and array[1].get("rankName") is "Ace"
+    switch array[0].get("rankName")
+      when 10, "Jack", "Queen", "King", "Ace"
+        @trigger("dealerHasBlackJack")
 
   hit: ->
     @add(@deck.pop())
+    if @isDealer is false
+      if @minScore() > 21
+        @trigger("bust")
 
   hasAce: -> @reduce (memo, card) ->
     memo or card.get('value') is 1
