@@ -2,6 +2,12 @@ class window.Hand extends Backbone.Collection
   model: Card
 
   initialize: (array, @deck, @isDealer) ->
+      if @hasAce 1, array[0]
+        console.log(array[0].get('rank'))
+        console.log("Has Ace")
+      else
+        console.log(array[0].get('rank'))
+        console.log("!HA")
 
   hit: ->
     @add(@deck.pop())
